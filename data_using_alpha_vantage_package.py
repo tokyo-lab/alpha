@@ -1,7 +1,5 @@
 from alpha_vantage.timeseries import TimeSeries
 from bs4 import BeautifulSoup
-import pandas as pd
-import io
 import json
 
 with open("config.json", "r") as config_file:

@@ -1,5 +1,7 @@
 import requests
 import json
+import io
+import pandas as pd
 from bs4 import BeautifulSoup
 
 with open("config.json", "r") as config_file:
@@ -12,9 +14,10 @@ print("apik key: ", api_key)
 url = (
     "https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=AAPL&apikey="
     + str(api_key)
+    + "&datatype=csv"
 )
-r = requests.get(url)
+r = requests.get(url).content
 # data = r.json()
-data = BeautifulSoup(r.content)
+data = pd.read_csv(io.StringIO(r.decode("utf-8")))
 
 print(data)
