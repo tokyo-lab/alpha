@@ -2,7 +2,7 @@ import requests
 import json
 import io
 import pandas as pd
-from bs4 import BeautifulSoup
+
 
 with open("config.json", "r") as config_file:
     config = json.load(config_file)

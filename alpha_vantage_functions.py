@@ -14,10 +14,9 @@ print("apik key: ", api_key)
 url = (
     "https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=AAPL&apikey="
     + str(api_key)
-    + "&datatype=csv"
 )
-r = requests.get(url).content
-# data = r.json()
-data = pd.read_csv(io.StringIO(r.decode("utf-8")))
+r = requests.get(url)
 
-print(data)
+fd = BeautifulSoup(r.content)
+
+print(fd)
