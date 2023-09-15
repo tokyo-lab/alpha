@@ -24,7 +24,10 @@ for ticker, data in stock_data.items():
 # You can access the close prices like close_prices[week][ticker]
 
 
-# Extract and print the close prices for each week
-for week, data in stock_data["TSLA"]["Weekly Time Series"].items():
+# Get the last three weeks' data
+last_three_weeks = list(stock_data["TSLA"]["Weekly Time Series"].items())[:3]
+
+# Extract and print the close prices for the last three weeks
+for week, data in last_three_weeks:
     close_price = data["4. close"]
     print(f"Week: {week}, Close Price: {close_price}")
