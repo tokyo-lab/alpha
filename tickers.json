@@ -1,1 +1,3 @@
-["MSFT", "AAPL", "TSLA"]
+{
+  "tickers": ["AAPL", "MSFT", "TSLA"]
+}
