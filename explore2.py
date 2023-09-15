@@ -30,4 +30,24 @@ last_three_weeks = list(stock_data["TSLA"]["Weekly Time Series"].items())[:3]
 # Extract and print the close prices for the last three weeks
 for week, data in last_three_weeks:
     close_price = data["4. close"]
-    print(f"Week: {week}, Close Price: {close_price}")
+    # print(f"Week: {week}, Close Price: {close_price}")
+
+
+class StockDataAnalyzer:
+    def __init__(self, json_data):
+        self.json_data = json_data
+
+    def get_last_n_weeks_close_prices(self, symbol, n):
+        weekly_data = self.json_data[symbol]["Weekly Time Series"]
+        last_n_weeks = list(weekly_data.items())[:n]
+
+        for week, data in last_n_weeks:
+            close_price = data["4. close"]
+            # print(f"Week: {week}, Close Price: {close_price}")
+
+
+# Create an instance of the StockDataAnalyzer class
+analyzer = StockDataAnalyzer(stock_data)
+
+# Get and print the last 2 weeks' close prices for TSLA
+analyzer.get_last_n_weeks_close_prices("TSLA", n=2)
