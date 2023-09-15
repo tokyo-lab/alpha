@@ -1,6 +1,5 @@
 import requests
 import json
-import io
 import pandas as pd
 
 # Load your API key from a configuration file (config.json in this case)
@@ -24,21 +23,11 @@ all_data = pd.DataFrame()
 # Loop through each ticker and fetch data
 for ticker in tickers:
     # Construct the API request URL for each ticker
-    url = f"https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol={ticker}&apikey={api_key}&datatype=csv"
+    url = f"https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol={ticker}&apikey={api_key}&datatype=json"
 
     # Send the request and decode the response
-    r = requests.get(url).content
-    data = pd.read_csv(io.StringIO(r.decode("utf-8")))
+    r = requests.get(url)
+    # data = pd.read_csv(io.StringIO(r.decode("utf-8")))
+    data = r.json()
 
-    # Rename columns to include the ticker symbol
-    data.columns = [
-        f"{ticker}_{col}" if col != "timestamp" else col for col in data.columns
-    ]
-
-    # Merge the data into the all_data DataFrame
-    if all_data.empty:
-        all_data = data
-    else:
-        all_data = pd.merge(all_data, data, on="timestamp", how="outer")
-
-print(all_data)
+    print(data)
