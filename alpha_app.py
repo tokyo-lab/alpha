@@ -12,12 +12,12 @@ class RunThis:
         # Load the list of stock tickers from a JSON file
         with open(self.stock_file_path, "r") as tickers_file:
             data = json.load(tickers_file)
-            print("data from StartApp function: ", data)
+            # print("data from StartApp function: ", data)
 
             tickers = data["tickers"]
             periods = data["periods"]
-            print("tickers: ", tickers)
-            print("periods", periods)
+            # print("tickers: ", tickers)
+            # print("periods", periods)
             # Create an empty dictionary to store the stock data
 
         # Load your API key from a configuration file (config.json in this case)
@@ -37,7 +37,7 @@ class RunThis:
         for ticker in tickers:
             # Construct the API request URL for each ticker
             url = f"https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol={ticker}&apikey={api_key}&datatype=json"
-
+            print("url: ", url)
             #  Send the request and parse the JSON response
             response = requests.get(url)
             stock_data = response.json()
@@ -50,7 +50,7 @@ class RunThis:
 
 
 class StockDataAnalyzer:
-    def __init__(self, stock_data):
+    def __init__(self, stock_file_path):
         self.json_path = stock_data
 
     def get_last_n_weeks_close_prices(self, symbol, n):
@@ -69,3 +69,4 @@ class StockDataAnalyzer:
 # analyzer.get_last_n_weeks_close_prices("TSLA", n=2)
 
 app = RunThis(stock_file_path="tickers.json", config_file_path="config.json")
+app.StartApp()
