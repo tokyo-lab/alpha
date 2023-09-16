@@ -7,9 +7,9 @@ class RunThis:
         self.json_data = stock_data
         print("stock_data: ", stock_data)
 
-    def StartApp(self, stock_data):
+    def StartApp(self, RunThis):
         # Load the list of stock tickers from a JSON file
-        with open(stock_data, "r") as tickers_file:
+        with open(self.json_data, "r") as tickers_file:
             data = json.load(tickers_file)
             print("data: ", data)
 
@@ -35,6 +35,7 @@ class RunThis:
             #  Send the request and parse the JSON response
             response = requests.get(url)
             stock_data = response.json()
+            print("stock_data", stock_data)
 
             # Add the stock data to the dictionary with the ticker symbol as the key
             all_stock_data[ticker] = stock_data
