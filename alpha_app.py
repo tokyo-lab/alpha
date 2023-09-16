@@ -4,14 +4,14 @@ import json
 
 class RunThis:
     def __init__(self, stock_data):
-        self.json_data = stock_data
-        print("stock_data: ", stock_data)
+        self.json_path = stock_data
+        print("stock_data from class: ", stock_data)
 
-    def StartApp(self, RunThis):
+    def StartApp(self):
         # Load the list of stock tickers from a JSON file
-        with open(self.json_data, "r") as tickers_file:
+        with open(self.json_path, "r") as tickers_file:
             data = json.load(tickers_file)
-            print("data: ", data)
+            print("data from StartApp function: ", data)
 
             tickers = data["tickers"]
             periods = data["periods"]
@@ -35,18 +35,20 @@ class RunThis:
             #  Send the request and parse the JSON response
             response = requests.get(url)
             stock_data = response.json()
-            print("stock_data", stock_data)
+            # print("stock_data", stock_data)
 
             # Add the stock data to the dictionary with the ticker symbol as the key
             all_stock_data[ticker] = stock_data
 
+        return all_stock_data
+
 
 class StockDataAnalyzer:
     def __init__(self, stock_data):
-        self.json_data = stock_data
+        self.json_path = stock_data
 
     def get_last_n_weeks_close_prices(self, symbol, n):
-        weekly_data = self.json_data[symbol]["Weekly Time Series"]
+        weekly_data = self.json_path[symbol]["Weekly Time Series"]
         last_n_weeks = list(weekly_data.items())[:n]
 
         for week, data in last_n_weeks:
