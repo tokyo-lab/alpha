@@ -3,13 +3,14 @@ import json
 
 
 class RunThis:
-    def __init__(self, stock_data):
-        self.json_path = stock_data
-        print("stock_data from class: ", stock_data)
+    def __init__(self, stock_file_path, config_file_path):
+        self.stock_file_path = stock_file_path
+        self.config_file_path = config_file_path
+        print("stock_data from class: ", stock_file_path)
 
     def StartApp(self):
         # Load the list of stock tickers from a JSON file
-        with open(self.json_path, "r") as tickers_file:
+        with open(self.stock_file_path, "r") as tickers_file:
             data = json.load(tickers_file)
             print("data from StartApp function: ", data)
 
@@ -20,10 +21,15 @@ class RunThis:
             # Create an empty dictionary to store the stock data
 
         # Load your API key from a configuration file (config.json in this case)
-        with open("config.json", "r") as config_file:
-            config = json.load(config_file)
+        try:
+            with open(self.config_file_path, "r") as config_file:
+                config = json.load(config_file)
+                api_key = config.get("api_key")
+        except FileNotFoundError:
+            print("Configuration file not found")
+        except json.JSONDecodeError:
+            print("Error decoding JSON in config file")
 
-        api_key = config.get("api_key")
         # print("API key: ", api_key)
         all_stock_data = {}
 
@@ -35,7 +41,7 @@ class RunThis:
             #  Send the request and parse the JSON response
             response = requests.get(url)
             stock_data = response.json()
-            # print("stock_data", stock_data)
+            print("stock_data", stock_data)
 
             # Add the stock data to the dictionary with the ticker symbol as the key
             all_stock_data[ticker] = stock_data
@@ -62,5 +68,4 @@ class StockDataAnalyzer:
 # Get and print the last 2 weeks' close prices for TSLA
 # analyzer.get_last_n_weeks_close_prices("TSLA", n=2)
 
-app = RunThis("tickers.json")
-app.StartApp("tickers.json")
+app = RunThis(stock_file_path="tickers.json", config_file_path="config.json")
