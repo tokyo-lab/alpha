@@ -51,7 +51,7 @@ class RunThis:
 
 class StockDataAnalyzer:
     def __init__(self, stock_file_path):
-        self.json_path = stock_data
+        self.stock_file_path = stock_file_path
 
     def get_last_n_weeks_close_prices(self, symbol, n):
         weekly_data = self.json_path[symbol]["Weekly Time Series"]
