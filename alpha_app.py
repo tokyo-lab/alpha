@@ -5,6 +5,7 @@ import json
 class RunThis:
     def __init__(self, stock_data):
         self.json_data = stock_data
+        print("stock_data: ", stock_data)
 
     def StartApp(self, stock_data):
         # Load the list of stock tickers from a JSON file
@@ -13,7 +14,9 @@ class RunThis:
             print("data: ", data)
 
             tickers = data["tickers"]
+            periods = data["periods"]
             print("tickers: ", tickers)
+            print("periods", periods)
             # Create an empty dictionary to store the stock data
 
         # Load your API key from a configuration file (config.json in this case)
@@ -51,7 +54,10 @@ class StockDataAnalyzer:
 
 
 # Create an instance of the StockDataAnalyzer class
-analyzer = StockDataAnalyzer(stock_data)
+# analyzer = StockDataAnalyzer(stock_data)
 
 # Get and print the last 2 weeks' close prices for TSLA
-analyzer.get_last_n_weeks_close_prices("TSLA", n=2)
+# analyzer.get_last_n_weeks_close_prices("TSLA", n=2)
+
+app = RunThis("tickers.json")
+app.StartApp("tickers.json")
