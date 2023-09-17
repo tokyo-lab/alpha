@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 
 
 class RunThis:
@@ -42,6 +43,13 @@ class RunThis:
 
             # Initialize a dictionary to store close prices for each week
             close_prices = {}
+
+            # Iterate through each ticker and its data
+        for ticker, data in all_stock_data.items():
+            weekly_data = data.get("Weekly Time Series", {})
+
+        # Iterate through each week's data
+
         for week, week_data in weekly_data.items():
             close_price = float(week_data.get("4. close", 0))  # Extract the close price
 
@@ -50,15 +58,7 @@ class RunThis:
                 close_prices[week] = {}
                 close_prices[week][ticker] = close_price
 
-    def get_last_n_weeks_close_prices(self, symbol, n):
-        weekly_data = self.json_data[symbol]["Weekly Time Series"]
-        last_n_weeks = list(weekly_data.items())[:n]
-
-        for week, data in last_n_weeks:
-            close_price = data["4. close"]
-            print(f"Week: {week}, Close Price: {close_price}")
-
-    return all_stock_data
+        return all_stock_data
 
 
 # Example of usage
