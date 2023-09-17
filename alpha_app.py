@@ -55,7 +55,7 @@ class StockDataAnalyzer(RunThis):
         print("Inside the class StockDataAnalyzer")
 
     def get_last_n_weeks_close_prices(self, symbol, n):
-        # Load the list of stock tickers from a JSON file
+        # Get the number of periods from a JSON file
         with open(self.stock_file_path, "r") as tickers_file:
             data = json.load(tickers_file)
             periods = data["periods"]
@@ -77,6 +77,7 @@ class StockDataAnalyzer(RunThis):
 
 app = RunThis(stock_file_path="tickers.json", config_file_path="config.json")
 app.StartApp()
-analyzer = StockDataAnalyzer(
-    all_stock_data,
-)
+analyzer = StockDataAnalyzer(all_stock_data, stock_file_path)
+
+# Get the last 2 weeks' close prices for AAPL
+analyzer.get_last_n_weeks_close_prices("TSLA", 2)
