@@ -41,22 +41,26 @@ class RunThis:
             all_stock_data[ticker] = response.json()
             weekly_data = data.get("Weekly Time Series", {})
 
-            # Initialize a dictionary to store close prices for each week
-            close_prices = {}
+        # Initialize a dictionary to store close prices for each week
+        close_prices = {}
 
-            # Iterate through each ticker and its data
+        # Iterate through each ticker and its data
         for ticker, data in all_stock_data.items():
             weekly_data = data.get("Weekly Time Series", {})
+            last_n_weeks = list(weekly_data.items())[:periods]
+            print("last_n_weeks:", last_n_weeks)
 
-        # Iterate through each week's data
+            # Iterate through each week's data
 
-        for week, week_data in weekly_data.items():
-            close_price = float(week_data.get("4. close", 0))  # Extract the close price
+            for week, week_data in weekly_data.items():
+                close_price = float(
+                    week_data.get("4. close", 0)
+                )  # Extract the close price
 
-            # Add the close price to the close_prices dictionary
-            if week not in close_prices:
-                close_prices[week] = {}
-                close_prices[week][ticker] = close_price
+                # Add the close price to the close_prices dictionary
+                if week not in close_prices:
+                    close_prices[week] = {}
+                    close_prices[week][ticker] = close_price
 
         return all_stock_data
 
