@@ -16,8 +16,8 @@ class RunThis:
 
             tickers = data["tickers"]
             periods = data["periods"]
-            # print("tickers: ", tickers)
-            # print("periods", periods)
+            print("tickers: ", tickers)
+            print("periods", periods)
             # Create an empty dictionary to store the stock data
 
         # Load your API key from a configuration file (config.json in this case)
@@ -49,9 +49,10 @@ class RunThis:
         return all_stock_data
 
 
-class StockDataAnalyzer:
-    def __init__(self, stock_file_path):
-        self.stock_file_path = stock_file_path
+class StockDataAnalyzer(RunThis):
+    def __init__(self, all_stock_data):
+        self.all_stock_data = all_stock_data
+        print("inside the class StockDataAnalyzer")
 
     def get_last_n_weeks_close_prices(self, symbol, n):
         weekly_data = self.json_path[symbol]["Weekly Time Series"]
@@ -59,7 +60,7 @@ class StockDataAnalyzer:
 
         for week, data in last_n_weeks:
             close_price = data["4. close"]
-            # print(f"Week: {week}, Close Price: {close_price}")
+            print(f"Week: {week}, Close Price: {close_price}")
 
 
 # Create an instance of the StockDataAnalyzer class
@@ -70,3 +71,4 @@ class StockDataAnalyzer:
 
 app = RunThis(stock_file_path="tickers.json", config_file_path="config.json")
 app.StartApp()
+analyzer = StockDataAnalyzer()

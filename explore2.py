@@ -43,7 +43,7 @@ class StockDataAnalyzer:
 
         for week, data in last_n_weeks:
             close_price = data["4. close"]
-            # print(f"Week: {week}, Close Price: {close_price}")
+            print(f"Week: {week}, Close Price: {close_price}")
 
 
 # Create an instance of the StockDataAnalyzer class
