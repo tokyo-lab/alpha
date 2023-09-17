@@ -58,6 +58,7 @@ class StockDataAnalyzer(RunThis):
     def __init__(self, all_stock_data, stock_file_path, config_file_path):
         super().__init__(stock_file_path, config_file_path)
         self.all_stock_data = all_stock_data
+        print("all_stock_data: ", all_stock_data)
 
     def get_last_n_weeks_close_prices(self, symbol, n):
         try:
