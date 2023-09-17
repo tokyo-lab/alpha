@@ -52,7 +52,7 @@ class RunThis:
 
             # Iterate through each week's data
 
-            for week, week_data in weekly_data.items():
+            for week, week_data in last_n_weeks:
                 close_price = float(
                     week_data.get("4. close", 0)
                 )  # Extract the close price
@@ -61,6 +61,8 @@ class RunThis:
                 if week not in close_prices:
                     close_prices[week] = {}
                     close_prices[week][ticker] = close_price
+
+                print("close price: ", close_price)
 
         return all_stock_data
 
