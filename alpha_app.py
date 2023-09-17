@@ -1,6 +1,5 @@
 import requests
 import json
-import os
 
 
 class RunThis:
@@ -25,6 +24,7 @@ class RunThis:
         if data is None:
             return None
         tickers = data["tickers"]
+        periods = data["periods"]
 
         config = self.read_json(self.config_file_path)
         if config is None:
@@ -35,40 +35,32 @@ class RunThis:
         for ticker in tickers:
             url = f"https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol={ticker}&apikey={api_key}&datatype=json"
             print("url: ", url)
+            print("ticker: ", ticker)
             response = requests.get(url)
             all_stock_data[ticker] = response.json()
+            weekly_data = data.get("Weekly Time Series", {})
 
-        return all_stock_data
+            # Initialize a dictionary to store close prices for each week
+            close_prices = {}
+        for week, week_data in weekly_data.items():
+            close_price = float(week_data.get("4. close", 0))  # Extract the close price
 
-
-class StockDataAnalyzer(RunThis):
-    def __init__(self, all_stock_data, stock_file_path, config_file_path):
-        super().__init__(stock_file_path, config_file_path)
-        self.all_stock_data = all_stock_data
-        print("all_stock_data: ", all_stock_data)
+            # Add the close price to the close_prices dictionary
+            if week not in close_prices:
+                close_prices[week] = {}
+                close_prices[week][ticker] = close_price
 
     def get_last_n_weeks_close_prices(self, symbol, n):
-        try:
-            with open(self.stock_file_path, "r") as tickers_file:
-                data = json.load(tickers_file)
-        except FileNotFoundError:
-            print("Stock file not found")
-            return
-        except json.JSONDecodeError:
-            print("Error decoding JSON in stock file")
-            return
-
-        weekly_data = self.all_stock_data[symbol]["Weekly Time Series"]
+        weekly_data = self.json_data[symbol]["Weekly Time Series"]
         last_n_weeks = list(weekly_data.items())[:n]
 
         for week, data in last_n_weeks:
             close_price = data["4. close"]
             print(f"Week: {week}, Close Price: {close_price}")
 
+    return all_stock_data
+
 
 # Example of usage
 app = RunThis(stock_file_path="tickers.json", config_file_path="config.json")
 all_stock_data = app.StartApp()
-if all_stock_data:
-    analyzer = StockDataAnalyzer(all_stock_data, "tickers.json", "config.json")
-    analyzer.get_last_n_weeks_close_prices("MSFT", 2)
