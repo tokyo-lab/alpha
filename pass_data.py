@@ -1,48 +1,38 @@
-import json
+# Method 1: Directly pass the variable as an argument to the function
 
 
 class MyClass:
-    def __init__(self):
-        self.periods = None  # Initialize attribute to store periods
-
-    def my_method(self, stock_file_path):
-        stonks = self.read_json(stock_file_path)
-        if stonks is None:
-            return None
-        self.periods = stonks.get("periods")  # Store periods in the instance attribute
-
-        print(f"periods from my_method: {self.periods}")
-
-        print(f"Data received: {stock_file_path}")
-
-    def read_json(self, file_path):
-        try:
-            with open(file_path, "r") as f:
-                return json.load(f)
-        except FileNotFoundError:
-            print(f"{file_path} not found")
-            return None
-        except json.JSONDecodeError:
-            print(f"Error decoding JSON in {file_path}")
-            return None
+    def __init__(self, value):
+        self.value = value
 
 
-def my_function(periods):
-    # # Instantiate class within function
-
-    # stonks = read_json(stock_file_path)
-    # if stonks is None:
-    #     return None
-    # periods = stonks.get("periods")
-
-    print(f"periods from my_function: {periods}")
+def my_function(some_value):
+    print(f"Value from class: {some_value}")
 
 
-# Instantiate class
-my_instance = MyClass()
+# Create an object of MyClass
+obj = MyClass(42)
 
-# Pass data
-my_instance.my_method(stock_file_path="tickers.json")
+# Pass the value to my_function
+my_function(obj.value)
 
-# Now periods is an attribute of my_instance, and we can pass it to my_function
-my_function(my_instance.periods)
+# Method 2: Return the value from a method and then pass it to the function
+
+
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+
+    def get_value(self):
+        return self.value
+
+
+def my_function(some_value):
+    print(f"Value from class: {some_value}")
+
+
+# Create an object of MyClass
+obj = MyClass(42)
+
+# Pass the value to my_function
+my_function(obj.get_value())
