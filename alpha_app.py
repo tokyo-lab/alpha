@@ -62,7 +62,7 @@ class RunThis:
                     close_prices[week] = {}
                     close_prices[week][ticker] = close_price
 
-                print(f"Week: {week}, Close Price: {close_price}")
+                print(f"Ticker: {ticker},Week: {week}, Close Price: {close_price}")
 
         return all_stock_data
 
